@@ -6,6 +6,6 @@ RUN apt update
 
 COPY . . 
 
-RUN pip install -e ".[dev]"
+RUN pip install -r requirements.txt
 
-ENTRYPOINT ["night"]
+ENTRYPOINT ["python", "main.py"]

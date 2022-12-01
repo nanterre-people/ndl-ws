@@ -2,9 +2,9 @@ from fastapi import FastAPI
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
-from backend.models import Base
+from models import Base
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./backend/sql_app.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///sql_app.db"
 
 
 def get_db() -> Session:

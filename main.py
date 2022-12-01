@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 
 from typing import List
 
-from backend.config import app, get_db
-from backend.models import Student, StudentSchema, Promotion, PromotionSchema
+from config import app, get_db
+from models import Student, StudentSchema, Promotion, PromotionSchema
 
 
 @app.get('/students', response_model=List[StudentSchema])
@@ -21,7 +21,7 @@ def get_promotions(db: Session = Depends(get_db)):
 
 
 def main():
-    uvicorn.run('backend.main:app', host='localhost', port=8000, reload=True)
+    uvicorn.run('main:app', host='localhost', port=8000, reload=True)
 
 if __name__ == '__main__':
     main()
