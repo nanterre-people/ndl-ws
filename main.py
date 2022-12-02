@@ -6,18 +6,18 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from config import app, get_db
-from models import Promotion, User, UserSchema, PromotionSchema, Question, QuestionSchema, QuestionQCM, QuestionQCMSchema
+from models import User, UserSchema, Question, QuestionSchema, QuestionQCM, QuestionQCMSchema
 
 
 
-@app.get('/questions', response_model=List['QuestionSchema'])
+@app.get('/questions', response_model=List[QuestionSchema])
 def get_questions(db: Session = Depends(get_db)):
     questions = db.query(Question).all()
     return questions
 
-@app.get('/questions-qcm', response_model=List['QuestionQCMSchema'])
+@app.get('/questions-qcm', response_model=List[QuestionQCMSchema])
 def get_questionsQCM(db: Session = Depends(get_db)):
-    questionQCM = db.query(questionQCM).all()
+    questionQCM = db.query(QuestionQCM).all()
     return questionQCM
 
 

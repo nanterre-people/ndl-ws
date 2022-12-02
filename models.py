@@ -6,22 +6,6 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-
-class Student(Base):
-    __tablename__ = "students"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    email = Column(String)
-    password = Column(String)
-
-
-class Promotion(Base):
-    __tablename__ = "promotions"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    students = relationship("Student", back_populates="promotion")
-
-
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
@@ -38,10 +22,10 @@ class Question(Base):
     question = Column(String)
     answer = Column(String)
     owner_id = Column(Integer, ForeignKey("users.id"))
-    owner = relationship("User", back_populates="QuestionQCM")
+    owner = relationship("User", back_populates="questions")
 
     mapper_args = {
-        "polymorphic_identity": "question",
+        "polymorphic_identity": "questions",
     }
 
 
@@ -58,22 +42,11 @@ class QuestionQCM(Question):
     result4 = Column(Integer)
 
     mapper_args = {
-        "polymorphic_identity": "question_qcm",
+        "polymorphic_identity": "questions_qcm",
     }
 
     class Config:
         orm_mode = True
-
-
-class StudentSchema(BaseModel):
-    name: str
-    email: str
-    password: str
-
-
-class PromotionSchema(BaseModel):
-    name: str
-    students: List["StudentSchema"] = []
 
 
 class QuestionSchema(BaseModel):
