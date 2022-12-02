@@ -6,18 +6,19 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from config import app, get_db
-from models import Student, StudentSchema, Promotion, PromotionSchema
+from models import Promotion, User, UserSchema, PromotionSchema, Question, QuestionSchema, QuestionQCM, QuestionQCMSchema
 
 
-@app.get('/students', response_model=List[StudentSchema])
-def get_students(db: Session = Depends(get_db)):
-    students = db.query(Student).all()
-    return students
 
-@app.get('/promotions', response_model=List[PromotionSchema])
-def get_promotions(db: Session = Depends(get_db)):
-    promotions = db.query(Promotion).all()
-    return promotions
+@app.get('/questions', response_model=List['QuestionSchema'])
+def get_questions(db: Session = Depends(get_db)):
+    questions = db.query(Question).all()
+    return questions
+
+@app.get('/questions-qcm', response_model=List['QuestionQCMSchema'])
+def get_questionsQCM(db: Session = Depends(get_db)):
+    questionQCM = db.query(questionQCM).all()
+    return questionQCM
 
 
 def main():
