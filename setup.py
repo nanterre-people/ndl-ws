@@ -8,7 +8,7 @@ INSTALL_REQUIRES = [
 ]
 
 setup(
-    name='backend',
+    name='ndl-ws',
     version='0.1',
     description='Backend for the project',
     packages=find_packages(),
@@ -16,7 +16,7 @@ setup(
     install_requires=INSTALL_REQUIRES,
     entry_points={
         'console_scripts': [
-            'night = backend.main:main',
+            'night = main:main',
         ],
     },
     extras_require={

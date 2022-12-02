@@ -1,37 +1,44 @@
 from typing import List
 from pydantic import BaseModel
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-class Student(Base):
-    __tablename__ = "students"
-
+class User(Base):
+    __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    email = Column(String)
-    password = Column(String)
-    
-class Promotion(Base):
-    __tablename__ = "promotions"
+    username = Column(String, unique=True, index=True)
+    email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+    questions = relationship("Question", back_populates="owner")
+    admin = Column(Integer, default=0)
 
+class Question(Base):
+    __tablename__ = "questions"
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    students = relationship("Student", back_populates="promotion")
+    question = Column(String)
+    answer = Column(String)
+    owner_id = Column(Integer, ForeignKey("users.id"))
+    owner = relationship("User", back_populates="QuestionQCM")
 
-class StudentSchema(BaseModel):
-    name: str
-    email: str
-    password: str
+    __mapper_args__ = {
+        "polymorphic_identity": "question",
+    }
 
-    class Config:
-        orm_mode = True
+class QuestionQCM(Question):
+    __tablename__ = "questions_qcm"
+    id = Column(Integer, ForeignKey("questions.id"), primary_key=True)
+    answer1 = Column(String)
+    result1 = Column(Boolean)
+    answer2 = Column(String)
+    result2 = Column(Boolean)
+    answer3 = Column(String)
+    result3 = Column(Boolean)
+    answer4 = Column(String)
+    result4 = Column(Boolean)
 
-class PromotionSchema(BaseModel):
-    name: str
-    students: List[StudentSchema] = []
-
-    class Config:
-        orm_mode = True
+    __mapper_args__ = {
+        "polymorphic_identity": "question_qcm",
+    }
